@@ -1,0 +1,78 @@
+EXTENSION SETTINGS
+-------------------
+
+The ysd_core_plugins gem defines a way to extend "any" of your modules or gems.
+
+1. Extension engine
+
+  The core plugin brings you a hook system that can be used to extend your gems.
+  
+  In your sinatra application, you can use the helper call_hook(hook, context={}), to call the hook on all your plugins.
+  
+  Moreover, you can automatically register sinatra extensions and helpers. This way you application will look cleaner.
+
+2. The plugin API
+
+  The plugin system is made of the following components:
+
+  > The Plugins::Plugin class which lets us to define a plugin. 
+  
+    A plugin defines the following properties
+    
+      - id
+      - name
+      - author
+      - description
+      - version
+      - settings
+    
+    It also allow to declare the hook classes which can extend other modules. You can do it in the plugin registration.
+            
+    The method Plugin.register allows registering a new plugin. It receives two parameters, the plugin id and a block which is used to define the plugin.
+
+      Plugins::Plugin.register :cms do
+
+        name=        'cms'
+        author=      'yurak sisa'
+        description= 'CMS integration'
+        version=     '0.1'
+        hooker       Huasi::CMSExtension # It defines a hook which can extend any module
+
+      end   
+
+    The Plugins::SinatraAppPlugin, is a Plugin subclass which lets us define sinatra extensions and helpers.
+    
+      Plugins::SinatraAppPlugin.register :cms do
+
+        name=        'cms'
+        author=      'yurak sisa'
+        description= 'CMS integration'
+        version=     '0.1'
+        hooker       Huasi::CMSExtension
+        sinatra_extension Sinatra::MyExtension
+        sinatra_helper Sinatra::MyHelper
+
+      end    
+    
+    The application will be automatically loaded to the application
+    
+  
+  > A sinatra extension, and a helper to integrate in the plugins in a Sinatra App.
+  
+    Sinatra::YSD::PluginExtension is the sinatra extension. When it's loaded initializes all the plugins
+    Plugins::HookCall : It defines helper methods to allow the interaction 
+  
+3. Using the plugin system in your application
+    
+  To use the plugin system in your sinatra application, you only have to register it extension. All of the registered plugins will be initialized when
+  the extension is registered.
+  
+    class MySinatraApp < Sinatra::Base
+    
+      ...
+  
+      register Sinatra::YSD::PluginExtension
+      helper Plugins::HookCall     
+    
+    end
+    
