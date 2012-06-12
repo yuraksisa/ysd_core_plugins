@@ -141,7 +141,7 @@ module Plugins
    
       @@plugins.each_key do |plugin_id|         
         result = plugin_invoke(plugin_id, hook, context, *args)
-        puts "plugin_id :#{plugin_id} hook : #{hook} result : #{result.to_json}"
+        puts "plugin_id :#{plugin_id} hook : #{hook} result : #{result}"
         results.concat(result)
       end
       
