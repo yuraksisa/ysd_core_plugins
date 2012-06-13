@@ -97,7 +97,7 @@ module Plugins
        
       results = []
       
-      puts "plugin_id :#{plugin_id} #{hook}"
+      #puts "plugin_id :#{plugin_id} #{hook}"
       
       if plugin = @@plugins[plugin_id.to_sym]    
         plugin.hooker_instances.each do |hooker_instance|
@@ -109,11 +109,11 @@ module Plugins
               results << result
             end  
           else
-            puts "Not defined method #{hook} for plugin #{plugin_id}"
+            #puts "Not defined method #{hook} for plugin #{plugin_id}"
           end  
         end
       else
-        puts "Not exists plugin #{plugin_id}"
+        #puts "Not exists plugin #{plugin_id}"
       end
       
       #puts "results (invoke) = #{results.to_json}"
@@ -141,7 +141,7 @@ module Plugins
    
       @@plugins.each_key do |plugin_id|         
         result = plugin_invoke(plugin_id, hook, context, *args)
-        puts "plugin_id :#{plugin_id} hook : #{hook} result : #{result}"
+        #puts "plugin_id :#{plugin_id} hook : #{hook} result : #{result}"
         results.concat(result)
       end
       
