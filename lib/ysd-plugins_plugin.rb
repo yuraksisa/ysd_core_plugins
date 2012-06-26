@@ -1,3 +1,5 @@
+require 'ysd_md_logger' unless defined?YSD::Logger
+
 module Plugins
 
   # It represents a plugin
@@ -100,18 +102,28 @@ module Plugins
       #puts "plugin_id :#{plugin_id} #{hook}"
       
       if plugin = @@plugins[plugin_id.to_sym]    
+      
         plugin.hooker_instances.each do |hooker_instance|
+
           if hooker_instance.class.method_defined?(hook)
-            result = hooker_instance.send(hook, context, *args)
-            if result.kind_of?(Array)
-              results.concat(result)
-            else
-              results << result
-            end  
+            begin
+              result = hooker_instance.send(hook, context, *args)
+              if result.kind_of?(Array)
+                results.concat(result)
+              else
+                results << result
+              end  
+            rescue => err # Take care of hook exceptions (but not abort the execution)
+              #YSD::Logger.instance.fatal("plugin_system") { "plugin_invoke #{plugin_id} #{hook} #{err}" }
+              raise
+            end
           else
             #puts "Not defined method #{hook} for plugin #{plugin_id}"
           end  
+
         end
+
+
       else
         #puts "Not exists plugin #{plugin_id}"
       end
@@ -141,7 +153,6 @@ module Plugins
    
       @@plugins.each_key do |plugin_id|         
         result = plugin_invoke(plugin_id, hook, context, *args)
-        #puts "plugin_id :#{plugin_id} hook : #{hook} result : #{result}"
         results.concat(result)
       end
       
