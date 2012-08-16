@@ -1,6 +1,6 @@
 module Plugins
   #
-  # Base class for all view hookers
+  # Base class for all view hooks
   #
   class ViewListener
     

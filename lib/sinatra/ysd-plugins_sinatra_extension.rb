@@ -30,6 +30,9 @@ module Sinatra
       
         # Adds the helpers to the application      
         app.helpers Plugins::HookCall
+        
+        # Adds the extensions to the application
+        app.register AspectRESTApi
       
         # Initializes all the registered plugins
         Plugins::Plugin.plugins.each do |plugin_name, plugin|
