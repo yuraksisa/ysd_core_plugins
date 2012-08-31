@@ -14,12 +14,10 @@ module Sinatra
         
           aspect_type = params[:type]
           
-          aspects = Plugins::Plugin.plugin_invoke_all('aspects', {:app => self}) #.select do |aspect|
+           aspects = Plugins::Plugin.plugin_invoke_all('aspects', {:app => self}) #.select do |aspect|
             #          aspect.applies_to.include?(aspect_type)
-            #        end
-          
-          puts "aspects : #{aspects}"
-                    
+            #        end         
+                   
            status 200
            content_type :json
            aspects.to_json

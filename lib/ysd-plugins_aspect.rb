@@ -1,4 +1,5 @@
 module Plugins
+
   #
   # It allows to define an aspect which can be applied to an element to
   # improve their abilities
@@ -6,12 +7,11 @@ module Plugins
   #
   class Aspect
     
-    attr_reader :id
-    attr_reader :description
-    attr_reader :applies_to
-    attr_reader :delegate
+    attr_reader :id, :description, :applies_to, :delegate, :configuration_attributes
     
     alias old_respond_to? respond_to?
+    
+    @@aspects = {}
     
     #
     # Constructor
@@ -26,23 +26,28 @@ module Plugins
     #  Tags which identifier where the aspect can be applied
     #
     # @param [Object] delegate
-    #   How does the aspect applies
+    #   How does the aspect applies. An instance to which the aspect will delegate its invokes
     #
-    def initialize(id, description, applies_to, delegate)
+    # @param [Array] configuration
+    #   An array of AspectConfiguration with the configuration attributes
+    #
+    def initialize(id, description, applies_to, delegate, configuration_attributes=[])
       @id = id
       @description = description
       @applies_to = applies_to   
       @delegate = delegate
+      @configuration_attributes = configuration_attributes
+      
+      # Store the aspect instance
+      self.class.aspects[id.to_sym] = self 
     end
     
     #
     # Check if the aspect responds to the method
     #
     def respond_to?(symbol, include_private=false)
-      
-      puts "respond to #{symbol} #{old_respond_to?(symbol, include_private) or delegate.respond_to?(symbol, include_private)}"
-      
-      old_respond_to?(symbol, include_private) or delegate.respond_to?(symbol, include_private)  
+  
+       old_respond_to?(symbol, include_private) or delegate.respond_to?(symbol, include_private)  
     
     end
     
@@ -68,6 +73,37 @@ module Plugins
     
     end
     
+    #
+    # Get the configuration attribute instance which defines the attribute
+    #
+    # @return
+    #   An instance of ::Plugins::Aspect::ConfigurationAttribute 
+    #
+    def get_configuration_attribute(configuration_attribute_id)
+    
+      (configuration_attributes.select { |a_c_a| a_c_a.id == configuration_attribute_id }).first
+    
+    end
+    
+    #
+    # Get the aspect instance
+    #
+    def self.get(id)
+      
+      return aspects[id.to_sym]
+               
+    end
+        
+    private
+    
+    #
+    # Retrieve the registered aspects
+    #
+    def self.aspects
+      
+      return @@aspects
+      
+    end
     
   end #Aspect
 

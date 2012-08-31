@@ -8,5 +8,6 @@ Gem::Specification.new do |s|
   s.summary = "Plugins manager"
   
   s.add_runtime_dependency "ysd_md_logger","0.1"
+  s.add_runtime_dependency "ysd_md_configuration"  
   
 end
