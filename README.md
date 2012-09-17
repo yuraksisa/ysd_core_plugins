@@ -35,7 +35,7 @@
   <p>It also allow to declare the hook classes which can extend other modules. You can do it in the plugin registration.</p>
             
   <p>The method Plugin.register allows registering a new plugin. It receives two parameters, the plugin id and a block which is used to define the plugin.</p>
-    <code>
+    <pre>
       Plugins::Plugin.register :cms do
         name=        'cms'
         author=      'yurak sisa'
@@ -43,9 +43,9 @@
         version=     '0.1'
         hooker       Huasi::CMSExtension # It defines a hook which can extend any module
       end
-    </code>   
+    </pre>   
   <p>The SinatraAppPlugin, is a Plugin subclass which lets us define sinatra extensions and helpers.</p>  
-  <code>
+  <pre>
       Plugins::SinatraAppPlugin.register :cms do
         name=        'cms'
         author=      'yurak sisa'
@@ -55,7 +55,7 @@
         sinatra_extension Sinatra::MyExtension
         sinatra_helper Sinatra::MyHelper
       end
-  </code>        
+  </pre>        
       
 <h3>2.2 The hooks and/or extensions definitions.</h3>     
       
@@ -65,10 +65,9 @@
     
   <p>To use the plugin system in your sinatra application, you only have to register it extension. All of the registered plugins will be initialized when
   the extension is registered.</p>
-  
-  <code>
+  <pre>
     class MySinatraApp < Sinatra::Base
       register Sinatra::YSD::PluginExtension
       helper Plugins::HookCall     
     end
-  </code>    
+  </pre>    
