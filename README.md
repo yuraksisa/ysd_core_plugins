@@ -36,7 +36,7 @@
             
   <p>The method Plugin.register allows registering a new plugin. It receives two parameters, the plugin id and a block which is used to define the plugin.</p>
 
-    <p>The Plugins::SinatraAppPlugin, is a Plugin subclass which lets us define sinatra extensions and helpers.</p>  
+  <p>The SinatraAppPlugin, is a Plugin subclass which lets us define sinatra extensions and helpers.</p>  
       
 <h3>2.2 The hooks and/or extensions definitions.</h3>     
       
@@ -47,11 +47,11 @@
   <p>To use the plugin system in your sinatra application, you only have to register it extension. All of the registered plugins will be initialized when
   the extension is registered.</p>
   
-  <pre>
+  <code>
     class MySinatraApp < Sinatra::Base
     
       register Sinatra::YSD::PluginExtension
       helper Plugins::HookCall     
     
     end
-  </pre>    
+  </code>    
