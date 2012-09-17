@@ -1,9 +1,31 @@
 module Plugins
-
+  # 
+  # Instances of Plugins::Aspects represents aspects or characteristics which can
+  # be applied to an object to improve its abilities.
   #
-  # It allows to define an aspect which can be applied to an element to
-  # improve their abilities
+  # Instead of define this functionality for all your models, an aspect can be defined to carry on it, to avoid repeating code.
   #
+  # Examples of Aspects are attachments management, photo clips, address definition, ... 
+  #
+  # An aspect can define configuration attributes, which can be individually configured for any of
+  # the models to which the aspect is applied
+  #
+  # The extensions (plugins) declares its defined aspects in the aspects method
+  #
+  #  def aspects(context={})
+  #    
+  #    app = context[:app]
+  #    
+  #    aspects = []
+  #    aspects << ::Plugins::Aspect.new(:my_aspect, 'aspect description', [:entity], MyAspectDelegate.new)
+  #                                             
+  #    return aspects
+  #     
+  #  end     
+  #
+  # In the application, the configured aspects can be retrieved using
+  #
+  #  Plugins::Plugin.plugin_invoke_all('aspects')
   #
   class Aspect
     
@@ -74,7 +96,7 @@ module Plugins
     end
     
     #
-    # Get the configuration attribute instance which defines the attribute
+    # Get the definition of the configuration attribute 
     #
     # @return
     #   An instance of ::Plugins::Aspect::ConfigurationAttribute 

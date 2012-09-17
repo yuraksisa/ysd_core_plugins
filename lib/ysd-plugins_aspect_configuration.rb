@@ -17,10 +17,10 @@ module Plugins
     #
     # Gets the aspect
     #
-    def get_aspect
+    def get_aspect(context={})
       
       Plugins::Aspect.get(aspect)
-    
+     
     end    
     
     #
@@ -33,8 +33,6 @@ module Plugins
       if the_aspect = get_aspect 
         if aspect_configuration_attribute = the_aspect.get_configuration_attribute(attribute_id.to_sym)
           default_value = aspect_configuration_attribute.default_value 
-        else
-          puts "GETTING ASPECT ATTRIBUTE : ATTRIBUTE DOES NOT EXIST #{attribute_id}"
         end
       end
       
@@ -60,16 +58,16 @@ module Plugins
                                                                   :module => get_module_name}) 
             end
           else
-           puts "SETTING ASPECT ATTRIBUTE : INVALID VALUE #{attribute_id} #{value}"
+           #puts "SETTING ASPECT ATTRIBUTE : INVALID VALUE #{attribute_id} #{value}"
            # invalid value
           end
         else
           # configuration attribute does not exist 
-          puts "SETTING ASPECT ATTRIBUTE : ATTRIBUTE DOES NOT EXIST #{attribute_id} #{value}"
+          #puts "SETTING ASPECT ATTRIBUTE : ATTRIBUTE DOES NOT EXIST #{attribute_id} #{value}"
         end
       else
         # there is no aspect
-        puts "SETTING ASPECT ATTRIBUTE : ASPECT DOES NOT EXIST #{attribute_id} #{value}" 
+        #puts "SETTING ASPECT ATTRIBUTE : ASPECT DOES NOT EXIST #{attribute_id} #{value}" 
       end
     
     end  

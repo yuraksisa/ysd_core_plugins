@@ -1,5 +1,3 @@
-require 'ysd_md_logger' unless defined?YSD::Logger
-
 module Plugins
 
   # It represents a plugin
@@ -98,8 +96,6 @@ module Plugins
     def self.plugin_invoke(plugin_id, hook, context, *args)
        
       results = []
-      
-      #puts "plugin_id :#{plugin_id} #{hook}"
       
       if plugin = @@plugins[plugin_id.to_sym]    
       

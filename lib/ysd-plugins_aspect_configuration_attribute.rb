@@ -1,7 +1,11 @@
 module Plugins
-
   #
-  # It represents an aspect configuration attribute, which can be configure for any entity
+  # It represents an aspect configuration attribute definition.
+  #
+  # An aspect can have configuration attributes which can be configured for 
+  # the entity to which the aspect is configured
+  #
+  # An aspect configuration attribute has an id, a description, a default value and a rule which can be applied to ensure it accepts the value
   #
   class AspectConfigurationAttribute
   
@@ -25,7 +29,7 @@ module Plugins
     end
   
     #
-    # Check if the alue is valid
+    # Check if the value is valid
     #
     def check_value(value)
       id_valid = if rule
