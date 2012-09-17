@@ -21,20 +21,13 @@
 
   <p>The Plugins::Plugin class which lets us to define a plugin. </p>
   
-  <p>A plugin defines the following properties: </p>
+  <p>A plugin defines the following properties:</p>
     
-    <ul>
-      <li>id</li>
-      <li>name</li>
-      <li>author</li>
-      <li>description</li>
-      <li>version</li>
-      <li>settings</li>
-    </ul>
+
     
-    <p>It also allow to declare the hook classes which can extend other modules. You can do it in the plugin registration.</p>
+  <p>It also allow to declare the hook classes which can extend other modules. You can do it in the plugin registration.</p>
             
-    <p>The method Plugin.register allows registering a new plugin. It receives two parameters, the plugin id and a block which is used to define the plugin.</p>
+  <p>The method Plugin.register allows registering a new plugin. It receives two parameters, the plugin id and a block which is used to define the plugin.</p>
     
     <pre>
       Plugins::Plugin.register :cms do
