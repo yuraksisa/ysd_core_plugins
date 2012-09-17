@@ -23,13 +23,20 @@
   
   <p>A plugin defines the following properties:</p>
     
-
+  <ul>
+     <li>id</li>
+     <li>name</li>
+     <li>author</li>
+     <li>description</li>
+     <li>version</li>
+     <li>settings</li>
+  </ul>
     
   <p>It also allow to declare the hook classes which can extend other modules. You can do it in the plugin registration.</p>
             
   <p>The method Plugin.register allows registering a new plugin. It receives two parameters, the plugin id and a block which is used to define the plugin.</p>
     
-    <pre>
+    <code>
       Plugins::Plugin.register :cms do
 
         name=        'cms'
@@ -39,11 +46,11 @@
         hooker       Huasi::CMSExtension # It defines a hook which can extend any module
 
       end
-    </pre>   
+    </code>   
 
     <p>The Plugins::SinatraAppPlugin, is a Plugin subclass which lets us define sinatra extensions and helpers.</p>
     
-    <pre>
+    <code>
       Plugins::SinatraAppPlugin.register :cms do
 
         name=        'cms'
@@ -55,7 +62,7 @@
         sinatra_helper Sinatra::MyHelper
 
       end
-    </pre>    
+    </code>    
       
 <h3>2.2 The hooks and/or extensions definitions.</h3>     
       
