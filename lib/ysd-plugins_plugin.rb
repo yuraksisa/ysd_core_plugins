@@ -23,12 +23,11 @@ module Plugins
       # Create the plugin
       plugin = AppPlugin.new(id)
       plugin.instance_eval(&block)      
-                    
+
       # Store it
       plugins.store(id.to_sym, plugin) 
            
     end
-
     
     # Create a new instance
     #
@@ -36,27 +35,14 @@ module Plugins
       @id = id
     end 
     
-    # Register a hooker
+    # Register a hook
     #
     # @param [Class] hooker_class
     #
     def hooker(hooker_class)
       hooker_classes << hooker_class
     end    
-    
-    #
-    # Init the plugin in the context of the application
-    #
-    def init(application)
-    
-      # Creates an instance of the hooker and hold it in the hookers 
-      hooker_classes.each do |hooker_class| 
-        hooker = hooker_class.new
-        hooker_instances << hooker 
-      end    
-    
-    end
-                   
+                       
     # Retrieve the list of plugins
     #
     def self.plugins
@@ -74,7 +60,7 @@ module Plugins
     # Get the hooker instances
     #
     def hooker_instances
-      @hookers_instances ||= []
+      @hookers_instances ||= create_hook_instances
     end    
     
     #
@@ -96,14 +82,14 @@ module Plugins
     def self.plugin_invoke(plugin_id, hook, context, *args)
        
       results = []
-      
-      if plugin = @@plugins[plugin_id.to_sym]    
-      
+      if plugin = plugins[plugin_id.to_sym]    
+        #puts "invoking plugin #{plugin_id}.#{hook} #{plugin.hooker_instances.inspect}"
         plugin.hooker_instances.each do |hooker_instance|
-
+       
           if hooker_instance.class.method_defined?(hook)
             begin
               result = hooker_instance.send(hook, context, *args)
+              
               if result.kind_of?(Array)
                 results.concat(result)
               else
@@ -124,7 +110,7 @@ module Plugins
         #puts "Not exists plugin #{plugin_id}"
       end
       
-      #puts "results (invoke) = #{results.to_json}"
+      #puts "results (invoke) = #{results.inspect}"
       
       results
     
@@ -147,17 +133,34 @@ module Plugins
     
       results = []
    
-      @@plugins.each_key do |plugin_id|         
+      plugins.each_key do |plugin_id|    
         result = plugin_invoke(plugin_id, hook, context, *args)
         results.concat(result)
       end
       
-      #puts "results (invoke all) = #{results.to_json}"
+      #puts "results (invoke all) = #{results.inspect}"
       
       results
    
    end
+   
+   private
+
+   #
+   # Configure the hooks
+   #
+   def create_hook_instances()
+      
+      _hook_instances = []
+
+      # Creates an instance of the hooker and hold it in the hookers 
+      hooker_classes.each do |hook_class| 
+        _hook_instances << hook_class.new
+      end    
+
+      return _hook_instances
     
+   end
              
   end #Plugin
 end #Plugins

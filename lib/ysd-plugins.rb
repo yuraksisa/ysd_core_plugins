@@ -1,8 +1,11 @@
 # http://www.redmine.org/projects/redmine/wiki/Hooks
 require 'ysd-plugins_plugin'
 require 'ysd-plugins_aspect'
-require 'ysd-plugins_aspect_configuration'
-require 'ysd-plugins_aspect_configuration_attribute'
+require 'aspects/ysd-plugins_aspect_configuration'
+require 'aspects/ysd-plugins_aspect_configuration_attribute'
+require 'aspects/ysd-plugins_applicable_model_aspect'
+require 'aspects/ysd-plugins_model_aspect'
+require 'aspects/ysd-plugins_configured_aspect_model'
 require 'ysd-plugins_sinatra_app_plugin'
 require 'ysd-plugins_viewlistener'
 require 'sinatra/ysd-plugins_sinatra_aspects_restapi'

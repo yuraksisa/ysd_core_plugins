@@ -24,8 +24,8 @@ module Plugins
     
       # Create the plugin
       plugin = SinatraAppPlugin.new(id)
-      plugin.instance_eval(&block)      
-                    
+      plugin.instance_eval(&block)   
+
       # Store it
       plugins.store(id.to_sym, plugin) 
            
@@ -59,17 +59,19 @@ module Plugins
       unless application.ancestors.index(Sinatra::Base)
         raise ArgumentError, "application #{application} must extend Sinatra::Base is : #{application.ancestors}"
       end
-       
-      super 
-             
+            
       # Initializes the plugins
       
       sinatra_helpers.each do |helper|
-        application.helpers helper
+        if application.respond_to?(:helpers)
+          application.helpers helper
+        end
       end
 
       sinatra_extensions.each do |extension|
-        application.register extension
+        if application.respond_to?(:register)
+          application.register extension
+        end
       end
       
     end
@@ -77,12 +79,14 @@ module Plugins
     private
     
     #
+    # Returns all sinatra helpers
     #
     def sinatra_helpers
       @sinatra_helpers ||= []
     end
     
     #
+    # Return all sinatra extensions
     #
     def sinatra_extensions
       @sinatra_extensions ||= []

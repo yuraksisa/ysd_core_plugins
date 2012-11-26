@@ -1,3 +1,4 @@
+require 'aspects/ysd-plugins_model_aspect'
 module Sinatra
   module YSD
     #
@@ -8,19 +9,20 @@ module Sinatra
       def self.registered(app)
         
         #
-        # Retrieves the aspects which applies to the concrete appliance
+        # Retrieves the aspects which can be applied to the type
         #
         app.get "/aspects/:type" do
-        
-          aspect_type = params[:type]
-          
-           aspects = Plugins::Plugin.plugin_invoke_all('aspects', {:app => self}) #.select do |aspect|
-            #          aspect.applies_to.include?(aspect_type)
-            #        end         
-                   
-           status 200
-           content_type :json
-           aspects.to_json
+ 
+          aspects = []
+
+          if model = (Plugins::ModelAspect.registered_models.select {|m| m.target_model == params[:type]}).first
+            aspects = model.applicable_aspects
+            aspects.sort! {|a,b| a.id <=> b.id}
+          end
+
+          status 200
+          content_type :json
+          aspects.to_json
         
         end
       

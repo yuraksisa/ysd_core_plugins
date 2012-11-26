@@ -36,8 +36,10 @@ module Sinatra
       
         # Initializes all the registered plugins
         Plugins::Plugin.plugins.each do |plugin_name, plugin|
-          plugin.init(app)
-          puts "PLUGIN #{plugin_name} initialized"
+          if plugin.respond_to?(:init)
+            plugin.init(app)
+            puts "PLUGIN #{plugin_name} initialized"
+          end
         end
       
       end

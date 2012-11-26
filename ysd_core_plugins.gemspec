@@ -8,9 +8,11 @@ Gem::Specification.new do |s|
   s.summary = "Plugins manager"
   s.homepage = "http://github.com/yuraksisa/ysd_core_plugins"
   
+  s.add_runtime_dependency "data_mapper", "1.2.0"
   s.add_runtime_dependency "json"
   s.add_runtime_dependency "sinatra","~>1.3"
   
   s.add_runtime_dependency "ysd_md_configuration"  #aspects configuration
+
   
 end
