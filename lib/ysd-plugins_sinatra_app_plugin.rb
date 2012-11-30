@@ -74,6 +74,8 @@ module Plugins
         end
       end
       
+      Plugins::Plugin.plugin_invoke(id, 'init', {:app => application})
+      
     end
         
     private

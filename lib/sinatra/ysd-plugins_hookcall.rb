@@ -13,9 +13,9 @@ module Plugins
       # @param [Hash] context
       #   The context
       #
-      def call_hook( hook, context={})
+      def call_hook( hook, context={}, *args)
                 
-         call_hooks_text = Plugins::Plugin.plugin_invoke_all(hook, context.merge(:app => self)).join
+         call_hooks_text = Plugins::Plugin.plugin_invoke_all(hook, context.merge(:app => self), *args).join
          
          if (String.method_defined?(:force_encoding))
            call_hooks_text.force_encoding('utf-8') 
