@@ -7,7 +7,9 @@ module Plugins
   # It's a module which can be included in any class which manages aspects to get/hold the aspect configuration
   # which is stored in the SystemConfiguration module
   #
-  # This module uses the following methods which have to be defined
+  # Aspects attributes are stored on SystemConfiguration::Variable following a rule defined by the get_variable_name
+  #
+  # The classes which include this module have to define the following methods:
   #
   #   aspect:            Returns the aspect identifier
   #   get_variable_name: Returns the variable which will store the aspect attribute configuration
@@ -44,6 +46,10 @@ module Plugins
     #
     # Gets the param value
     #
+    # @param [String] The attribute
+    #
+    # @return [Object] The attribute value
+    #
     def get_aspect_attribute_value(attribute_id)
       
       default_value = nil
@@ -59,7 +65,10 @@ module Plugins
     end
     
     #
-    # Sets the para value
+    # Sets an aspect attribute
+    #
+    # @param [String] The attribute
+    # @param [Object] The value
     #
     def set_aspect_attribute_value(attribute_id, value)
       
@@ -91,7 +100,7 @@ module Plugins
     end  
 
     #
-    # Get all the aspects attributes
+    # Get the aspect attributes
     # 
     # @return [Hash] of attributes
     #
@@ -111,17 +120,18 @@ module Plugins
     end
 
     #
-    # Assign the aspects attributes from a hash
+    # Assign the aspect attributes 
+    #
+    # @param [Hash] options
+    #   The key is the attribute id and the value is the attribute value
     #
     def aspect_attributes=(options={})
      
       options.each do |attribute_id, value|
-
         set_aspect_attribute_value(attribute_id, value)
-
       end
 
     end
-      
+          
   end
 end

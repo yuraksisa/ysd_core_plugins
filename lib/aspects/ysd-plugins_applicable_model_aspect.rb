@@ -32,9 +32,7 @@ module Plugins
     def applicable_aspects
     
       Plugins::Aspect.all.select do |aspect| 
-      
         Plugins::ModelAspect.aspects_applicable(self).include?(aspect.model_aspect)
-      
       end
 
     end
@@ -72,17 +70,21 @@ module Plugins
         
         the_assigned_aspects = assigned_aspects.map { |model_aspect| model_aspect['aspect']  }
         
+        # remove not existing aspects
         remove_aspects = ConfiguredModelAspect.all(:target_model => target_model, 
                                                    :aspect.not => the_assigned_aspects )
-         
-        # remove not existing aspects
         if remove_aspects
           remove_aspects.destroy      
         end
         
-        # add new aspects
+        # add new aspects (or update existing ones)
         assigned_aspects.each do |model_aspect|
-          if not ConfiguredModelAspect.get(model_aspect['aspect'], model_aspect['target_model'])
+          model_aspect['target_model'] = target_model
+          aspect_attributes = model_aspect.delete('aspect_attributes')
+          if configured_model_aspect = ConfiguredModelAspect.get(target_model, model_aspect['aspect'])
+            configured_model_aspect.attributes= model_aspect
+            configured_model_aspect.save
+          else
             ConfiguredModelAspect.create(model_aspect)
           end
         end
@@ -91,7 +93,5 @@ module Plugins
     
     end    
 
-
-  
   end
 end

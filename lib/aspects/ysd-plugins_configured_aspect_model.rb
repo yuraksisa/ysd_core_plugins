@@ -11,26 +11,8 @@ module Plugins
     
     storage_names[:default] = 'plugins_model_aspects'
     
-    property :target_model, String, :field => 'model', :length => 50, :key => true    # The model
-    property :aspect, String, :field => 'aspect', :length => 32, :key => true         # The aspect
-
-    #
-    # Gets the variable name which stores the param value for the entity/aspect
-    #
-    def get_variable_name(attribute_id)
-     
-      "aspect.#{aspect}.#{target_model}.#{attribute_id}"
-     
-    end
-    
-    #
-    # Gets the module name
-    #
-    def get_module_name
-    
-      return :core_plugins
-    
-    end
+    property :target_model, String, :field => 'model', :length => 50, :key => true  # The model
+    property :aspect, String, :field => 'aspect', :length => 32, :key => true       # The aspect
 
     #
     # Generates the json
@@ -44,7 +26,23 @@ module Plugins
       
       super(options)
 
-    end    
-        
+    end 
+
+    # -------------- Aspect Configuration interface ---------------------------
+
+    #
+    # Gets the variable name which stores the param value for the entity/aspect
+    #
+    def get_variable_name(attribute_id)
+      "aspect.#{aspect}.#{target_model}.#{attribute_id}"
+    end
+    
+    #
+    # Gets the module name
+    #
+    def get_module_name
+      return :core_plugins
+    end
+           
   end #ConfiguredModelAspect
 end #Plugins

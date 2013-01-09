@@ -116,6 +116,24 @@ module Plugins
     end
     
     #
+    # Check if the aspects affects the render processs
+    #
+    def affects_render?
+
+      return gui_block.respond_to?(:custom)
+
+    end
+
+    #
+    # Check if the aspect affects the edit process
+    #
+    def affects_edit?
+      
+      return gui_block.respond_to?(:element_form)
+
+    end
+
+    #
     # Check if the aspect responds to the method
     #
     def respond_to?(symbol, include_private=false)
@@ -142,7 +160,10 @@ module Plugins
     #
     def to_json(options={})
     
-      {:id => id, :description => description}.to_json(options)
+      c_attributes = Hash[configuration_attributes.map { |c_a| [c_a.id, c_a.default_value]}]
+
+      {:id => id, :description => description, :affects_edit => affects_edit?, :affects_render => affects_render?, 
+       :configuration_attributes => c_attributes }.to_json(options)
     
     end
     
