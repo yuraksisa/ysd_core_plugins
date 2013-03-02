@@ -160,10 +160,12 @@ module Plugins
     #
     def to_json(options={})
     
-      c_attributes = Hash[configuration_attributes.map { |c_a| [c_a.id, c_a.default_value]}]
-
-      {:id => id, :description => description, :affects_edit => affects_edit?, :affects_render => affects_render?, 
-       :configuration_attributes => c_attributes }.to_json(options)
+      {:id => id, 
+       :description => description,
+       :affects_edit => affects_edit?, 
+       :affects_render => affects_render?, 
+       :configuration_attributes => Hash[configuration_attributes.map{|configuration_attribute| [configuration_attribute.id, configuration_attribute.default_value]}] 
+       }.to_json(options)
     
     end
     
@@ -175,7 +177,7 @@ module Plugins
     #
     def get_configuration_attribute(configuration_attribute_id)
     
-      (configuration_attributes.select { |a_c_a| a_c_a.id == configuration_attribute_id }).first
+      (configuration_attributes.select { |aspect_configuration_attribute| aspect_configuration_attribute.id == configuration_attribute_id }).first
     
     end
     

@@ -25,7 +25,7 @@ module Plugins
     # ------------- Aspects management ----------------
 
     #
-    # Return the model applicable aspects
+    # Retrieve the aspects that can be applied to the model
     #
     # @return [Array] of Plugin::Aspect
     #
@@ -38,17 +38,17 @@ module Plugins
     end
 
     #
-    # Get the enabled/configured aspects 
+    # Retrive the aspects that have been configured/enabled to the model
     #
     # @return [Array] array of Plugins::AspectConfiguration
     #
     def aspects
       
-      if not @aspects
+      unless @aspects
         @aspects = ConfiguredModelAspect.all(:target_model => target_model, :order => [:weight.asc] )
       end
       
-      @aspects
+      return @aspects
       
     end
 
@@ -62,6 +62,8 @@ module Plugins
       (aspects.select { |model_aspect| model_aspect.aspect == aspect }).first
       
     end
+
+    # ------------ Aspects management ---------------
 
     #
     # Assign aspects to the model
