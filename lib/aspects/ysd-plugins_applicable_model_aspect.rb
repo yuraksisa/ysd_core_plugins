@@ -63,6 +63,14 @@ module Plugins
       
     end
 
+    #
+    # Get the aspect target model class
+    #
+    # @return [Class]
+    def aspect_target_model
+      self
+    end
+
     # ------------ Aspects management ---------------
 
     #
