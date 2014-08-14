@@ -43,10 +43,33 @@ module Plugins
     end
     
     #
+    # Retrieve the models which manage it own aspects
+    #
+    def self.own_managed_registered_models
+      @own_management_registered_models ||= []
+    end
+
+    #
+    # Retrieve the managed aspects
+    #
+    def self.managed_registered_models
+       p "#{registered_models.inspect}"
+       p "#{own_managed_registered_models}"
+       registered_models - own_managed_registered_models
+    end
+
+    #
     # Register a model
     #
     def self.register_model(model)
       registered_models << model
+    end
+
+    #
+    # Considers that a model own manages it aspects
+    #
+    def self.register_own_managed_model(model)
+      own_managed_registered_models << model
     end
     
     #
