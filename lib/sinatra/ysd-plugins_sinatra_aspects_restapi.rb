@@ -11,7 +11,7 @@ module Sinatra
         #
         # Retrieves the aspects which can be applied to the type
         #
-        app.get "/aspects/:type" do
+        app.get "/api/aspects/:type" do
  
           aspects = []
 
